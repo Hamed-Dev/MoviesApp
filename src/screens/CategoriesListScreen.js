@@ -14,6 +14,7 @@ import { addCategorySchema } from '../controllers/ValidationSchema';
 import TopBar from '../components/ui/TopBar';
 
 
+
 const CategoriesListScreen = ({ navigation }) => {
     const categories = useSelector(state => state.category.categories)
     const dispatch = useDispatch()
