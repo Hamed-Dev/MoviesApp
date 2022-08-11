@@ -12,6 +12,7 @@ import MovieListItem from '../components/MovieListItem';
 import { Formik } from 'formik';
 import { addUpdateMovieSchema } from '../controllers/ValidationSchema';
 import TopBar from '../components/ui/TopBar'
+import AppSuccessDialog from '../common/AppSuccessDialog'
 
 
 
@@ -20,10 +21,8 @@ const MoviesListScreen = ({ navigation, route }) => {
     const { category } = route.params //// data from category list screen
     const dispatch = useDispatch()
     const formikRef = useRef()
-    const [movieName, setMovieName] = useState('')
-    const [movieDescription, setMovieDescription] = useState('')
-    const [movieRate, setMovieRate] = useState('')
     const [loading, setLoading] = useState(true)
+    const [isSuccess, setIsSuccess] = useState(false)
 
     useEffect(() => {
         dispatch(clearMovies())  //// clear movies from redux
@@ -43,7 +42,7 @@ const MoviesListScreen = ({ navigation, route }) => {
                 validateOnMount={true}
                 onSubmit={values => {
                     insertIntoMoviesTable(values.movieName, values.movieDescription, values.movieRate, category.id, dispatch)  ///// insert new data into movies table in local db
-
+                    setIsSuccess(true)
                 }}
                 validationSchema={addUpdateMovieSchema} >
                 {({ handleChange, handleBlur, handleSubmit, values, touched, errors, isValid }) => (
@@ -92,7 +91,7 @@ const MoviesListScreen = ({ navigation, route }) => {
     }
 
     return (
-        <>
+        <View style={{flex:1}}>
             <TopBar back navigation={navigation} title={'Movies'} />
             <ScreenListComponent data={movies} loading={loading} viewIfNoData={addNewMovieView()}>
 
@@ -107,7 +106,12 @@ const MoviesListScreen = ({ navigation, route }) => {
                     />
                 </View>
             </ScreenListComponent>
-        </>
+            <AppSuccessDialog
+                    open={isSuccess}
+                    message={'Movie added successfully'}
+                    onPress={() => setIsSuccess(false)}
+                />
+        </View>
     )
 }
 

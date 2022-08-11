@@ -12,6 +12,7 @@ import { insertIntoCategoryTable, getAllCategories } from '../MoviesLocalDB/Cate
 import { Formik } from 'formik';
 import { addCategorySchema } from '../controllers/ValidationSchema';
 import TopBar from '../components/ui/TopBar';
+import AppSuccessDialog from '../common/AppSuccessDialog'
 
 
 
@@ -20,12 +21,14 @@ const CategoriesListScreen = ({ navigation }) => {
     const dispatch = useDispatch()
     const formikRef = useRef()
     const [loading, setLoading] = useState(true)
+    const [isSuccess, setIsSuccess] = useState(false)
 
     useEffect(() => {
         dispatch(clearCategories())  //// clear categories from redux
         getAllCategories(dispatch)  //// get all categories from categories table (local db) and assign into categories redux to show in flatlist 
         setTimeout(() => {
             setLoading((false))
+
         }, 800);
     }, [])
 
@@ -37,7 +40,7 @@ const CategoriesListScreen = ({ navigation }) => {
                 validateOnMount={true}
                 onSubmit={values => {
                     insertIntoCategoryTable(values.categoryName, values.categoryDescription, dispatch)  ///// insert new data into Category table in local db
-
+                    setIsSuccess(true)
                 }}
                 validationSchema={addCategorySchema} >
                 {({ handleChange, handleBlur, handleSubmit, values, touched, errors, isValid }) => (
@@ -75,7 +78,7 @@ const CategoriesListScreen = ({ navigation }) => {
     }
 
     return (
-        <>
+        <View style={{flex:1}}>
             <TopBar navigation={navigation} title={'Categories'} />
             <ScreenListComponent data={categories} loading={loading} viewIfNoData={addNewCategoryView()}>
 
@@ -89,8 +92,14 @@ const CategoriesListScreen = ({ navigation }) => {
                         }
                     />
                 </View>
+
             </ScreenListComponent>
-        </>
+            <AppSuccessDialog
+                open={isSuccess}
+                message={'Category added successfully'}
+                onPress={() => setIsSuccess(false)}
+            />
+        </View>
     )
 }
 
