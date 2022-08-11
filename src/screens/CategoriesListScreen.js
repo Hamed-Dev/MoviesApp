@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import ScreenListComponent from "../components/ui/ScreenListComponent"; /// container screen for flatlist 
 import Button from '../components/ui/Button'
-import { addNewCategory, clearCategories } from '../redux/features/categories/categorySlice';
+import { clearCategories } from '../redux/features/categories/categorySlice';
 import Input from '../components/ui/Input';
 import { moderateScale } from '../utils/ResponsiveDimentions';
 import { hp, wp } from '../utils/dimensions';
