@@ -24,7 +24,7 @@ const CategoriesListScreen = ({ navigation }) => {
     const [isSuccess, setIsSuccess] = useState(false)
 
     useEffect(() => {
-        dispatch(clearCategories())  //// clear categories from redux
+       // dispatch(clearCategories())  //// clear categories from redux
         getAllCategories(dispatch)  //// get all categories from categories table (local db) and assign into categories redux to show in flatlist 
         setTimeout(() => {
             setLoading((false))

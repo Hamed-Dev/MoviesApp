@@ -1,6 +1,6 @@
 import sqlite, { SQLiteDatabase } from "react-native-sqlite-storage";
 import { db, createCategoryTable } from "./DBConnection";
-import { addNewCategory } from "../redux/features/categories/categorySlice";
+import { addNewCategory, resetNewCategoies } from "../redux/features/categories/categorySlice";
 
 
 /// insert Into categories Table 
@@ -30,16 +30,18 @@ export const getCategoryById = (id, dispatch) => {
 
 /// select all from  categories Table 
 export const getAllCategories = async (dispatch) => {
-  await  db.transaction((trx) => {
+    await db.transaction((trx) => {
         trx.executeSql('SELECT * FROM categories ',
             [],
             (trx, results) => {
                 var reslt = results.rows
-                for (let i = 0; i <= results.rows.length; i++) {
+                var categoriesArr = []
+                for (let i = 0; i < results.rows.length; i++) {
                     /// get all categories from categories table and add into categories redux 
-                    dispatch(addNewCategory({ id: reslt.item(i).id, categoryName: reslt.item(i).cat_name, categoryDescription: reslt.item(i).cat_description }))
-                }
+                    categoriesArr.push({ id: reslt.item(i).id, categoryName: reslt.item(i).cat_name, categoryDescription: reslt.item(i).cat_description })
 
+                }
+                dispatch(resetNewCategoies(categoriesArr))
             })
     })
 }

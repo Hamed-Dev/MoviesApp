@@ -25,11 +25,11 @@ const MoviesListScreen = ({ navigation, route }) => {
     const [isSuccess, setIsSuccess] = useState(false)
 
     useEffect(() => {
-        dispatch(clearMovies())  //// clear movies from redux
+        // dispatch(clearMovies())  //// clear movies from redux
         getAllMoviesByCategoryId(category.id, dispatch) //// get all movies from movies table (local db) and assign into movies redux to show in flatlist
         setTimeout(() => {
             setLoading((false))
-        }, 200);
+        }, 400);
     }, [])
 
 
@@ -91,7 +91,7 @@ const MoviesListScreen = ({ navigation, route }) => {
     }
 
     return (
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
             <TopBar back navigation={navigation} title={'Movies'} />
             <ScreenListComponent data={movies} loading={loading} viewIfNoData={addNewMovieView()}>
 
@@ -107,10 +107,10 @@ const MoviesListScreen = ({ navigation, route }) => {
                 </View>
             </ScreenListComponent>
             <AppSuccessDialog
-                    open={isSuccess}
-                    message={'Movie added successfully'}
-                    onPress={() => setIsSuccess(false)}
-                />
+                open={isSuccess}
+                message={'Movie added successfully'}
+                onPress={() => setIsSuccess(false)}
+            />
         </View>
     )
 }
