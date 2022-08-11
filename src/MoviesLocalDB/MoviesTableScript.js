@@ -1,5 +1,5 @@
 import { db, createMoviesTable } from "./DBConnection";
-import { addNewMovie } from "../redux/features/movies/moviesSlice";
+import { addNewMovie, resetNewMovies } from "../redux/features/movies/moviesSlice";
 
 
 /// insert Into Movie Table 
@@ -48,15 +48,19 @@ export const getMovieById = (id, dispatch) => {
 
 /// select from  Movie Table by category id
 export const getAllMoviesByCategoryId = (categoryId, dispatch) => {
-    return db.transaction((trx) => {
+    db.transaction((trx) => {
         trx.executeSql('SELECT * FROM movies WHERE cat_id = ' + categoryId,
             [],
             (trx, results) => {
-                var reslt = results.rows
-                for (let i = 0; i <= results.rows.length; i++) {
-                    /// get all movies from moviees table and add into movies redux 
-                    dispatch(addNewMovie({ id: reslt.item(i).id, movieName: reslt.item(i).movie_name, movieDescription: reslt.item(i).movie_description, movieRate: reslt.item(i).movie_rate, categoryId: reslt.item(i).cat_id }))
+
+                var rows = results.rows
+                var moviesArr = []
+
+                for (let i = 0; i < results.rows.length; i++) {
+                    /// get all movies from movies table and add into movies redux 
+                    moviesArr.push({ id: rows.item(i).id, movieName: rows.item(i).movie_name, movieDescription: rows.item(i).movie_description, movieRate: rows.item(i).movie_rate, categoryId: rows.item(i).cat_id })
                 }
+                dispatch(resetNewMovies(moviesArr))
 
             })
     })

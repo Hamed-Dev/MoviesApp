@@ -29,11 +29,14 @@ export const moviesSlice = createSlice({
             movies[currentMovieIndex]['movieRate'] = action.payload.movieRate
             state.movies = movies /// reset the updated movie
         },
+        resetNewMovies: (state, action) => {
+            state.movies = action.payload /// set new movies 
+        },
 
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { addNewMovie, clearMovies, updateMovie ,deleteMovie} = moviesSlice.actions
+export const { addNewMovie, clearMovies, updateMovie, deleteMovie, resetNewMovies } = moviesSlice.actions
 
 export default moviesSlice.reducer

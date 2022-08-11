@@ -29,7 +29,7 @@ const CategoriesListScreen = ({ navigation }) => {
         setTimeout(() => {
             setLoading((false))
 
-        }, 800);
+        }, 200);
     }, [])
 
     const addNewCategoryView = () => {

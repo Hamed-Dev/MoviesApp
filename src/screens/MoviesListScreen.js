@@ -29,7 +29,7 @@ const MoviesListScreen = ({ navigation, route }) => {
         getAllMoviesByCategoryId(category.id, dispatch) //// get all movies from movies table (local db) and assign into movies redux to show in flatlist
         setTimeout(() => {
             setLoading((false))
-        }, 800);
+        }, 200);
     }, [])
 
 
